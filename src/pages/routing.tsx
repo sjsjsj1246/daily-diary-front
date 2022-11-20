@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
+import qs from "qs";
 
 export function useInternalRouter() {
   const navigate = useNavigate();
@@ -8,11 +9,9 @@ export function useInternalRouter() {
       goBack() {
         navigate(-1);
       },
-      push(path: RoutePath) {
+      push(path: string) {
         navigate(path);
       },
     };
   }, [navigate]);
 }
-
-type RoutePath = "/" | "/login" | "/signup";
