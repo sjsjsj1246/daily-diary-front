@@ -20,14 +20,15 @@
     "@babel/preset-typescript": "^7.18.6",
     "@emotion/babel-plugin": "^11.10.5",
     "@testing-library/jest-dom": "^5.16.5",
-    "@types/testing-library__jest-dom": "^5.14.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.3",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
+    "@types/testing-library__jest-dom": "^5.14.5",
     "customize-cra": "^1.0.0",
+    "msw": "^0.49.0",
     "react-app-rewired": "^2.2.1"
   },
   "scripts": {
