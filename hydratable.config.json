@@ -1,0 +1,7 @@
+{
+  "crawlingUrls": [
+    "/",
+    "/diary"
+  ],
+  "delay": 1500
+}
