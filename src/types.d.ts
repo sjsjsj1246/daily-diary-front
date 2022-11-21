@@ -11,6 +11,6 @@ type Diary = {
   createdAt: Date;
   isPublic: boolean;
   tags: Array<string>;
-  author: User;
   image: string | null;
+  author: User;
 };

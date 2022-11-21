@@ -9,8 +9,11 @@ module.exports = override(
   addWebpackAlias({
     "@pages": path.resolve(__dirname, "src", "pages"),
     "@components": path.resolve(__dirname, "src", "components"),
-    "@server": path.resolve(__dirname, "src", "server"),
-    "@modules": path.resolve(__dirname, "src", "modules"),
+    "@containers": path.resolve(__dirname, "src", "containers"),
+    "@recoil": path.resolve(__dirname, "src", "recoil"),
+    "@mocks": path.resolve(__dirname, "src", "mocks"),
+    "@layouts": path.resolve(__dirname, "src", "layouts"),
+    "@assets": path.resolve(__dirname, "src", "assets"),
     "@apis": path.resolve(__dirname, "src", "apis"),
   })
 );

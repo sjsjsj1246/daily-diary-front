@@ -1,15 +1,16 @@
 import Footer from "@components/Footer";
+import DiaryContainer from "@containers/DiaryContainer";
 import HeaderContainer from "@containers/HeaderContainer";
-import MainContainer from "@containers/MainContainer";
+import React from "react";
 
-const MainPage: React.FC = () => {
+const DiaryPage: React.FC = () => {
   return (
     <>
       <HeaderContainer />
-      <MainContainer />
+      <DiaryContainer />
       <Footer />
     </>
   );
 };
 
-export default MainPage;
+export default DiaryPage;

@@ -1,15 +1,15 @@
 import Footer from "@components/Footer";
 import HeaderContainer from "@containers/HeaderContainer";
-import MainContainer from "@containers/MainContainer";
+import MyConatainer from "@containers/MyConatainer";
 
-const MainPage: React.FC = () => {
+const MyPage: React.FC = () => {
   return (
     <>
       <HeaderContainer />
-      <MainContainer />
+      <MyConatainer />
       <Footer />
     </>
   );
 };
 
-export default MainPage;
+export default MyPage;

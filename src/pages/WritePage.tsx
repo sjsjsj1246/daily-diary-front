@@ -1,15 +1,15 @@
 import Footer from "@components/Footer";
 import HeaderContainer from "@containers/HeaderContainer";
-import MainContainer from "@containers/MainContainer";
+import WriteContainer from "@containers/WriteContainer";
 
-const MainPage: React.FC = () => {
+const WritePage: React.FC = () => {
   return (
     <>
       <HeaderContainer />
-      <MainContainer />
+      <WriteContainer />
       <Footer />
     </>
   );
 };
 
-export default MainPage;
+export default WritePage;

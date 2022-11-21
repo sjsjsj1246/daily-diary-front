@@ -20,3 +20,10 @@ h5,
 p {
   margin: 0;
 }
+
+#root {
+  min-width: 1024px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

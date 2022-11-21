@@ -28,6 +28,36 @@
       "@pages": [
         "pages"
       ],
+      "@containers/*": [
+        "containers/*"
+      ],
+      "@containers": [
+        "containers"
+      ],
+      "@recoil/*": [
+        "recoil/*"
+      ],
+      "@recoil": [
+        "recoil"
+      ],
+      "@mocks/*": [
+        "mocks/*"
+      ],
+      "@mocks": [
+        "mocks"
+      ],
+      "@layouts/*": [
+        "layouts/*"
+      ],
+      "@layouts": [
+        "layouts"
+      ],
+      "@assets/*": [
+        "assets/*"
+      ],
+      "@assets": [
+        "assets"
+      ],
       "@components/*": [
         "components/*"
       ],
