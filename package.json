@@ -41,7 +41,8 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "postbuild": "react-hydratable",
-    "preview": "react-hydratable --preview"
+    "preview": "react-hydratable --preview",
+    "deploy": "react-app-rewired build && netlify deploy --prod"
   },
   "eslintConfig": {
     "extends": [
