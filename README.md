@@ -50,6 +50,6 @@ root가 랜더링 도중 자식이 비어있을 때 prerendering 한 결과를 �
 
 사용 라이브러리: react-helmat-async
 
-페이지벼롤 다른 메타 태그를 적용함
+페이지별로 다른 메타 태그를 적용함
 
 기타 메타 태그 설정 툴: https://metatags.io/
