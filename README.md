@@ -53,3 +53,29 @@ root가 랜더링 도중 자식이 비어있을 때 prerendering 한 결과를 �
 페이지별로 다른 메타 태그를 적용함
 
 기타 메타 태그 설정 툴: https://metatags.io/
+
+### 배포
+
+Netlify 사용: https://diarydaily.netlify.app/
+
+netlify.toml
+
+```
+[build]
+  publish = "build/"
+
+[context.production.environment]
+  TOML_ENV_VAR = "From netlify.toml"
+  REACT_APP_TOML_ENV_VAR = "From netlify.toml (REACT_APP_)"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
+
+```
+  "script": {
+    "deploy": "npm run build && netlify deploy --prod"
+  }
+```
