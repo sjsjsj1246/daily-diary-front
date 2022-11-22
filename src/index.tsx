@@ -1,10 +1,11 @@
-import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { worker } from "./mocks";
 import axios from "axios";
-import { hydrate, render } from "react-dom";
+import { RecoilRoot } from "recoil";
+import ReactDOM from "react-dom/client";
+import { hydrateRoot } from "react-dom/client";
 
 if (process.env.NODE_ENV === "development") {
   worker.start();
@@ -12,16 +13,12 @@ if (process.env.NODE_ENV === "development") {
   axios.defaults.baseURL = "https://api.example.com";
 }
 
+const container = document.getElementById("root") as HTMLElement;
 const element = (
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <RecoilRoot>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </RecoilRoot>
 );
-
-const rootElement = document.getElementById("root") as HTMLElement;
-
-if (rootElement.hasChildNodes()) {
-  hydrate(element, rootElement);
-} else {
-  render(element, rootElement);
-}
+const root = hydrateRoot(container, element);

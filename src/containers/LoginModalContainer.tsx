@@ -1,16 +1,28 @@
 import LoginModal from "@components/LoginModal";
-import React from "react";
+import { authState, useLogin } from "@recoil/auth";
+import { openLoginModalState } from "@recoil/ui";
+import React, { useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 
-type LoginModalContainerProps = {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+const LoginModalContainer: React.FC = () => {
+  const [open, setOpen] = useRecoilState(openLoginModalState);
+  const { currentUser } = useRecoilValue(authState);
+  const login = useLogin();
 
-const LoginModalContainer: React.FC<LoginModalContainerProps> = ({
-  open,
-  setOpen,
-}) => {
-  return open ? <LoginModal setOpen={setOpen} /> : null;
+  const onLogin = async (token: string) => {
+    await login(token);
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (currentUser) {
+      setOpen(false);
+    }
+  }, [currentUser]);
+
+  return open ? (
+    <LoginModal open={open} setOpen={setOpen} onLogin={onLogin} />
+  ) : null;
 };
 
 export default LoginModalContainer;

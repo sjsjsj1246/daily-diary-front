@@ -8,7 +8,7 @@ type Diary = {
   id: number;
   title: string;
   content: string;
-  createdAt: Date;
+  createdAt: string;
   isPublic: boolean;
   tags: Array<string>;
   image: string | null;

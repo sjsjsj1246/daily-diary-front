@@ -1,13 +1,21 @@
 import styled from "@emotion/styled";
+import { CSSTransition } from "react-transition-group";
 
 type LoginModalProps = {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  onLogin: (token: string) => void;
 };
 
-const LoginModal: React.FC<LoginModalProps> = ({ setOpen }) => {
+const LoginModal: React.FC<LoginModalProps> = ({ open, setOpen, onLogin }) => {
   return (
     <Wrapper onClick={() => setOpen(false)}>
-      <LoginForm>로그인</LoginForm>
+      <CSSTransition in={open} timeout={500} classNames="modal" unmountOnExit>
+        <LoginForm>
+          <p>로그인</p>
+          <button onClick={() => onLogin("asd")}>로그인하기</button>
+        </LoginForm>
+      </CSSTransition>
     </Wrapper>
   );
 };
@@ -24,6 +32,17 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .modal-enter {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  .modal-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.5s ease-in-out;
+  }
 `;
 
 const LoginForm = styled.div`

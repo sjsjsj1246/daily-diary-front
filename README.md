@@ -35,13 +35,15 @@
 index.tsx
 
 ```ts
-const rootElement = document.getElementById("root") as HTMLElement;
-
-if (rootElement.hasChildNodes()) {
-  hydrate(element, rootElement);
-} else {
-  render(element, rootElement);
-}
+const container = document.getElementById("root") as HTMLElement;
+const element = (
+  <RecoilRoot>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </RecoilRoot>
+);
+const root = hydrateRoot(container, element);
 ```
 
 root가 랜더링 도중 자식이 비어있을 때 prerendering 한 결과를 대신 보여주기 때문에 화면 깜빡임이 해소됨

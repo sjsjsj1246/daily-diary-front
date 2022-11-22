@@ -3,12 +3,18 @@ import { useInternalRouter } from "@pages/routing";
 import { Logo } from "assets/svg";
 import { useEffect, useState } from "react";
 import { throttle } from "lodash";
-import LoginModalContainer from "containers/LoginModalContainer";
+import { useSetRecoilState } from "recoil";
+import { openLoginModalState } from "@recoil/ui";
 
-const Header: React.FC = () => {
+type HeaderProps = {
+  currentUser: User | null;
+  onWrite: () => void;
+};
+
+const Header: React.FC<HeaderProps> = ({ currentUser, onWrite }) => {
   const router = useInternalRouter();
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [openLoginModal, setOpenLoginModal] = useState(false);
+  const setOpenLoginModal = useSetRecoilState(openLoginModalState);
 
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
@@ -24,14 +30,14 @@ const Header: React.FC = () => {
       <Content>
         <Logo className="logo" onClick={() => router.push("/")} />
         <Menu onClick={() => router.push("/diary")}>일기</Menu>
-        <Menu className="write" onClick={() => router.push("/write")}>
-          작성하기
+        <Menu className="write" onClick={onWrite}>
+          기록하기
         </Menu>
-        <Menu onClick={() => setOpenLoginModal(!openLoginModal)}>로그인</Menu>
-        <LoginModalContainer
-          open={openLoginModal}
-          setOpen={setOpenLoginModal}
-        />
+        {currentUser ? (
+          <Menu onClick={() => router.push("/my")}>내정보</Menu>
+        ) : (
+          <Menu onClick={() => setOpenLoginModal(true)}>로그인</Menu>
+        )}
       </Content>
     </Wrapper>
   );
