@@ -7,7 +7,7 @@ const Sitemap = require("react-router-sitemap").default;
 
 function generateSitemap() {
   return new Sitemap(router)
-    .build("https://diarydaily.netlify.app") // 여러분의 도메인 이름으로 변경해주세요.
+    .build("https://diary.hislogs.com") // 여러분의 도메인 이름으로 변경해주세요.
     .save("./public/sitemap.xml"); // sitemap.xml 파일이 생성될 위치입니다.
 }
 

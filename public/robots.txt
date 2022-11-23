@@ -1,4 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow:
-Sitemap: https://diarydaily.netlify.app/sitemap.xml
+Sitemap: https://diary.hislogs.com/sitemap.xml
