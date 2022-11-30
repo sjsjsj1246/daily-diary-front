@@ -1,11 +1,27 @@
 import { rest } from "msw";
 import data from "./data";
+const currentUserId = "a";
 
 export const getUser: Parameters<typeof rest.get>[1] = (req, res, ctx) => {
-  const id = req.params.id as string;
-  return res(ctx.status(200), ctx.json(data.find((user) => user.id === id)));
+  const id = req.params.id as string | undefined;
+  if (id) {
+    return res(
+      ctx.delay(200),
+      ctx.status(200),
+      ctx.json(data.find((user) => user.id === id))
+    );
+  } else {
+    return res(
+      ctx.delay(200),
+      ctx.status(200),
+      ctx.json(data.find((user) => user.id === currentUserId))
+    );
+  }
 };
 
 export const updateUser: Parameters<typeof rest.patch>[1] = (req, res, ctx) => {
-  return res(ctx.status(200), ctx.json(data));
+  const body = req.body as User;
+  const index = data.findIndex((user) => user.id === body.id);
+  data[index] = body;
+  return res(ctx.delay(200), ctx.status(200), ctx.json(data));
 };

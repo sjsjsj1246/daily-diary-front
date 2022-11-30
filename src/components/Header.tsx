@@ -1,91 +1,130 @@
 import styled from "@emotion/styled";
 import { useInternalRouter } from "@pages/routing";
 import { Logo } from "assets/svg";
-import { useEffect, useState } from "react";
-import { throttle } from "lodash";
 import { useSetRecoilState } from "recoil";
 import { openLoginModalState } from "@recoil/ui";
+import HomeIcon from "@mui/icons-material/Home";
+import BookmarksOutlinedIcon from "@mui/icons-material/BookmarksOutlined";
+import CreateIcon from "@mui/icons-material/Create";
+import { Avatar, IconButton } from "@mui/material";
+import { useLocation } from "react-router";
 
 type HeaderProps = {
   currentUser: User | null;
-  onWrite: () => void;
 };
 
-const Header: React.FC<HeaderProps> = ({ currentUser, onWrite }) => {
+const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   const router = useInternalRouter();
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const pathname = useLocation().pathname;
   const setOpenLoginModal = useSetRecoilState(openLoginModalState);
 
-  const updateScroll = () => {
-    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", throttle(updateScroll, 300));
-    return () => window.removeEventListener("scroll", updateScroll);
-  });
+  const menuItems = [
+    {
+      title: "Home",
+      path: "/",
+      icon: HomeIcon,
+      onClick: () => {
+        router.push("/");
+      },
+    },
+    {
+      title: "Bookmark",
+      path: "/bookmark",
+      icon: BookmarksOutlinedIcon,
+      onClick: () => {
+        if (currentUser) {
+          router.push(`/bookmark`);
+        } else {
+          setOpenLoginModal(true);
+        }
+      },
+    },
+    {
+      title: "write",
+      path: "/write",
+      icon: CreateIcon,
+      onClick: () => {
+        if (currentUser) {
+          router.push("/write");
+        } else {
+          setOpenLoginModal(true);
+        }
+      },
+    },
+  ];
 
   return (
-    <Wrapper className={scrollPosition ? "scrolled" : ""}>
-      <Content>
+    <HeaderList>
+      <ListItem
+        css={{
+          paddingBottom: "2rem",
+          marginBottom: "2rem",
+          borderBottom: "1px solid #757575",
+        }}
+      >
         <Logo className="logo" onClick={() => router.push("/")} />
-        <Menu onClick={() => router.push("/diary")}>일기</Menu>
-        <Menu className="write" onClick={onWrite}>
-          기록하기
-        </Menu>
+      </ListItem>
+      {menuItems.map((item) => (
+        <ListItem
+          key={item.title}
+          className={`${item.path === pathname && "active"} menu`}
+        >
+          <IconButton onClick={item.onClick} size="large">
+            <item.icon className="icon" fontSize="inherit" />
+          </IconButton>
+        </ListItem>
+      ))}
+      <ListItem css={{ marginTop: "auto" }}>
         {currentUser ? (
-          <Menu onClick={() => router.push("/my")}>내정보</Menu>
+          <Avatar
+            sx={{ cursor: "pointer" }}
+            onClick={() => router.push(`/profile/${currentUser.id}`)}
+          />
         ) : (
-          <Menu onClick={() => setOpenLoginModal(true)}>로그인</Menu>
+          <ListItem onClick={() => setOpenLoginModal(true)}>로그인</ListItem>
         )}
-      </Content>
-    </Wrapper>
+      </ListItem>
+    </HeaderList>
   );
 };
 
 export default Header;
 
-const Wrapper = styled.div`
-  width: 100%;
-  height: 5rem;
+const HeaderList = styled.div`
+  width: 5rem;
+  height: 100%;
   position: fixed;
-  top: 0;
-  background-color: none;
+  left: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  transition: background-color 0.3s ease-in-out;
+  z-index: 1000;
+  border-right: 1px solid #eaeaea;
+  padding: 2rem 1rem;
 
   .logo {
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
     cursor: pointer;
   }
-
-  &.scrolled {
-    background-color: #ffffffe1;
-  }
 `;
 
-const Content = styled.div`
-  width: 85%;
-  max-width: 1536px;
-  display: flex;
-  align-items: center;
-`;
-
-const Menu = styled.div`
-  width: 6rem;
+const ListItem = styled.div`
+  box-sizing: content-box;
+  width: 100%;
   height: 2.5rem;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-left: 2rem;
   cursor: pointer;
   font-weight: bold;
 
-  &.write {
-    border-radius: 5px;
-    margin-left: auto;
-    background-color: #d7e7ec;
+  &.menu {
+    & + & {
+      margin-top: 1rem;
+    }
+  }
+
+  &.active svg {
+    fill: #000000;
   }
 `;

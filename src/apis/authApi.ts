@@ -1,10 +1,13 @@
 import axios from "axios";
 
-const login = async (token: string) =>
-  await axios.post<User>("/auth/login", { token });
+const google = async (token: string) =>
+  await axios.post<{ token: string; user: User }>("/auth/login", { token });
+const kakao = async (token: string) =>
+  await axios.post<{ token: string; user: User }>("/auth/login", { token });
 const logout = async () => await axios.post<null>("/auth/logout");
 
 export default {
-  login,
+  google,
+  kakao,
   logout,
 };

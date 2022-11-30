@@ -20,6 +20,5 @@ const Write: React.FC = () => {
 export default Write;
 
 const Wrapper = styled.div`
-  padding-top: 5rem;
   flex: 1;
 `;

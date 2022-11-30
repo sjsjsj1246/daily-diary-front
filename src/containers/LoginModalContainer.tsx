@@ -20,9 +20,7 @@ const LoginModalContainer: React.FC = () => {
     }
   }, [currentUser]);
 
-  return open ? (
-    <LoginModal open={open} setOpen={setOpen} onLogin={onLogin} />
-  ) : null;
+  return <LoginModal open={open} setOpen={setOpen} onLogin={onLogin} />;
 };
 
 export default LoginModalContainer;

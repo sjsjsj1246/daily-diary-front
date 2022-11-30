@@ -6,19 +6,23 @@ import axios from "axios";
 import { RecoilRoot } from "recoil";
 import ReactDOM from "react-dom/client";
 import { hydrateRoot } from "react-dom/client";
+import "@fontsource/public-sans";
+import { CssBaseline } from "@mui/material";
 
 if (process.env.NODE_ENV === "development") {
   worker.start();
 } else {
-  axios.defaults.baseURL = "https://api.example.com";
+  axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 }
 
 const container = document.getElementById("root") as HTMLElement;
 const element = (
   <RecoilRoot>
     <BrowserRouter>
-      <App />
+      <CssBaseline>
+        <App />
+      </CssBaseline>
     </BrowserRouter>
   </RecoilRoot>
 );
-const root = hydrateRoot(container, element);
+ReactDOM.createRoot(container).render(element);

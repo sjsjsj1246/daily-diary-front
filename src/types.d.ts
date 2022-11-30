@@ -10,7 +10,12 @@ type Diary = {
   content: string;
   createdAt: string;
   isPublic: boolean;
+  bookmarkedUserId: Array<string>;
   tags: Array<string>;
   image: string | null;
   author: User;
+};
+
+type DiaryQuery = {
+  userId?: string;
 };

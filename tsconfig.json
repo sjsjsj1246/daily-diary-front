@@ -70,6 +70,12 @@
       "@apis": [
         "apis"
       ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@utils": [
+        "utils"
+      ],
     }
   },
   "include": [
