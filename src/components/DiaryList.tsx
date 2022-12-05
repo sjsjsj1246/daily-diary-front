@@ -28,7 +28,6 @@ const DiaryList: React.FC<DiaryListProps> = ({
 
     //전체의 높이(스크롤 전체) - (스크롤 위치 높이 + 화면 높이)
     if (scrollHeight - innerHeight - scrollTop < 200) {
-      console.log("불러와");
       onGetPreviousDiary();
     }
   }, 500);

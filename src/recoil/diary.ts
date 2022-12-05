@@ -83,20 +83,15 @@ export const diaryQuery = selectorFamily<Diary, number>({
     },
 });
 
-export const deleteDiary = (id: number) => {
-  const resetDiaryList = useResetRecoilState(diaryListState);
-  const resetQuery = useResetRecoilState(bookmarkDiaryQueryState);
-  const resetBookmarkDiaryList = useResetRecoilState(bookmarkDiaryListState);
-  const resetBookmarkQuery = useResetRecoilState(diaryQueryState);
-  return async () => {
+export const useDeleteDiary = () => {
+  const resetAllDiary = useResetAllDiary();
+
+  return async (id: number) => {
     const response = await diaryApi.deleteDiary(id);
-    if (response.status !== 200) {
+    if (response.status !== 204) {
       throw new Error("일기 삭제 실패");
     }
-    resetDiaryList();
-    resetQuery();
-    resetBookmarkDiaryList();
-    resetBookmarkQuery();
+    resetAllDiary();
   };
 };
 
@@ -120,8 +115,6 @@ export const useResetAllDiary = () => {
   const resetBookmarkDiaryList = useResetRecoilState(bookmarkDiaryListState);
   const resetBookmarkQuery = useResetRecoilState(bookmarkDiaryQueryState);
   return () => {
-    console.log("다이어리 초기화");
-
     resetDiaryList();
     resetQuery();
     resetBookmarkDiaryList();

@@ -10,7 +10,7 @@ const WriteContainer: React.FC = () => {
 
   const onSubmit = async () => {
     await createDiary();
-    router.push("/");
+    router.push(`/`);
   };
 
   const onChange = (property: keyof WriteDiary, data: any) => {
