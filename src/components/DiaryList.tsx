@@ -4,63 +4,90 @@ import { Avatar, Box, Fab, styled, Typography } from "@mui/material";
 import { useInternalRouter } from "@pages/routing";
 import EditIcon from "@mui/icons-material/Edit";
 import { replaceHtmlTag } from "@utils/diary";
+import { useCallback, useEffect } from "react";
+import { debounce, throttle } from "lodash";
 
 type DiaryListProps = {
-  diaryListLoadable: Loadable<Diary[]>;
+  diaryList: Diary[];
+  onGetPreviousDiary: () => void;
 };
 
-const DiaryList: React.FC<DiaryListProps> = ({ diaryListLoadable }) => {
+const DiaryList: React.FC<DiaryListProps> = ({
+  diaryList,
+  onGetPreviousDiary,
+}) => {
   const router = useInternalRouter();
+
+  const handleScroll = throttle(() => {
+    const { innerHeight } = window;
+    const { scrollHeight } = document.body;
+
+    const scrollTop =
+      (document.documentElement && document.documentElement.scrollTop) ||
+      document.body.scrollTop;
+
+    //전체의 높이(스크롤 전체) - (스크롤 위치 높이 + 화면 높이)
+    if (scrollHeight - innerHeight - scrollTop < 200) {
+      console.log("불러와");
+      onGetPreviousDiary();
+    }
+  }, 500);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [onGetPreviousDiary]);
 
   return (
     <Wrapper>
-      {diaryListLoadable.state === "hasValue" &&
-        diaryListLoadable.contents.map((diary) => (
-          <Card
-            key={diary.diaryId}
-            onClick={() => router.push(`/diary/${diary.diaryId}`)}
-          >
-            <Left>
-              <Top>
-                <Avatar
-                  className="avatar"
-                  src={`${process.env.REACT_APP_API_URL}/images/${diary.author.image}`}
-                />
-                <Typography className="name">{diary.author.name}</Typography>
-              </Top>
-              <Middle>
-                <Typography noWrap className="title">
-                  {diary.title}
+      {diaryList.map((diary) => (
+        <Card
+          key={diary.diaryId}
+          onClick={() => router.push(`/diary/${diary.diaryId}`)}
+        >
+          <Left>
+            <Top>
+              <Avatar
+                className="avatar"
+                src={`${process.env.REACT_APP_API_URL}/images/${diary.author.image}`}
+              />
+              <Typography className="name">{diary.author.name}</Typography>
+            </Top>
+            <Middle>
+              <Typography noWrap className="title">
+                {diary.title}
+              </Typography>
+              <Typography className="content">
+                {replaceHtmlTag(diary.contents)}
+              </Typography>
+            </Middle>
+            <Bottom>
+              <Typography className="date">
+                {dateStringToLocalString(diary.createdAt)}
+              </Typography>
+              {diary.tags.map((tag) => (
+                <Typography className="tag" key={tag}>
+                  #{tag}
                 </Typography>
-                <Typography className="content">
-                  {replaceHtmlTag(diary.contents)}
-                </Typography>
-              </Middle>
-              <Bottom>
-                <Typography className="date">
-                  {dateStringToLocalString(diary.createdAt)}
-                </Typography>
-                {diary.tags.map((tag) => (
-                  <Typography className="tag" key={tag}>
-                    #{tag}
-                  </Typography>
-                ))}
-              </Bottom>
-            </Left>
-            {diary.image && (
-              <Right>
-                <img
-                  css={{
-                    width: "10rem",
-                    height: "10rem",
-                    objectFit: "cover",
-                  }}
-                  src={`${process.env.REACT_APP_API_URL}/images/${diary.image}`}
-                />
-              </Right>
-            )}
-          </Card>
-        ))}
+              ))}
+            </Bottom>
+          </Left>
+          {diary.image && (
+            <Right>
+              <img
+                css={{
+                  width: "10rem",
+                  height: "10rem",
+                  objectFit: "cover",
+                }}
+                src={`${process.env.REACT_APP_API_URL}/images/${diary.image}`}
+              />
+            </Right>
+          )}
+        </Card>
+      ))}
       <Fab
         sx={{
           color: "white",

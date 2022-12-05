@@ -3,7 +3,7 @@ import qs from "qs";
 
 const getDiaryList = async (query: DiaryQuery) =>
   await axios.get<{ count: number; data: Diary[] }>(
-    `/diary?sort=DESC&limit=10&lte=0`
+    `/diary?${qs.stringify(query)}`
   );
 
 const createDiary = async (diary: FormData) =>

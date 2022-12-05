@@ -1,7 +1,7 @@
 import userApi from "@apis/userApi";
 import { selectorFamily } from "recoil";
 
-export const userQuery = selectorFamily<User, string | undefined>({
+export const userQuery = selectorFamily<User, string>({
   key: "UserInfoQuery",
   get: (id) => async () => {
     const response = await userApi.getUser(id);

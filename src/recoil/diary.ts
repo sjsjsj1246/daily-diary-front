@@ -4,6 +4,8 @@ import {
   selector,
   selectorFamily,
   useRecoilRefresher_UNSTABLE,
+  useRecoilState,
+  useResetRecoilState,
 } from "recoil";
 import { authState } from "./auth";
 
@@ -11,23 +13,61 @@ export const diaryQueryState = atom<DiaryQuery>({
   key: "diaryQueryState",
   default: {
     sort: "DESC",
-    limit: 10,
-    lte: 0,
+    limit: 6,
+    lte: 987654321,
   },
 });
 
-export const diaryListQuery = selector<Diary[]>({
-  key: "diaryListQuery",
-  get: async ({ get }) => {
-    get(authState);
-
-    const response = await diaryApi.getDiaryList(get(diaryQueryState));
-    if (response.status !== 200) {
-      throw new Error("일기 리스트 조회 실패");
-    }
-    return response.data.data;
+export const bookmarkDiaryQueryState = atom<DiaryQuery>({
+  key: "bookmarkDiaryQueryState",
+  default: {
+    sort: "DESC",
+    limit: 6,
+    lte: 987654321,
   },
 });
+
+export const diaryListState = atom<Diary[]>({
+  key: "diaryListState",
+  default: [],
+});
+
+export const bookmarkDiaryListState = atom<Diary[]>({
+  key: "bookmarkDiaryListState",
+  default: [],
+});
+
+export const useGetPreviousDiary = () => {
+  const [query, setQuery] = useRecoilState(diaryQueryState);
+  const [diaryList, setDiaryList] = useRecoilState(diaryListState);
+
+  const getPreviousDiary = async () => {
+    const {
+      data: { data },
+    } = await diaryApi.getDiaryList(query);
+    const lte = data[data.length - 1].diaryId;
+    setQuery((prev) => ({ ...prev, lte }));
+    setDiaryList((prev) => [...prev, ...data]);
+  };
+
+  return getPreviousDiary;
+};
+
+export const useGetPreviousBookmarkDiary = () => {
+  const [query, setQuery] = useRecoilState(bookmarkDiaryQueryState);
+  const [diaryList, setDiaryList] = useRecoilState(bookmarkDiaryListState);
+
+  const getPreviousBookmarkDiary = async () => {
+    const {
+      data: { data },
+    } = await diaryApi.getBookMarkDiaryList(query);
+    const lte = data[data.length - 1].diaryId;
+    setQuery((prev) => ({ ...prev, lte }));
+    setDiaryList((prev) => [...prev, ...data]);
+  };
+
+  return getPreviousBookmarkDiary;
+};
 
 export const diaryQuery = selectorFamily<Diary, number>({
   key: "diaryQuery",
@@ -43,37 +83,33 @@ export const diaryQuery = selectorFamily<Diary, number>({
     },
 });
 
-export const bookmarkListQuery = selector<Diary[]>({
-  key: "bookmarkListQuery",
-  get: async ({ get }) => {
-    get(authState);
-    const response = await diaryApi.getBookMarkDiaryList(get(diaryQueryState));
-
-    if (response.status !== 200) {
-      throw new Error("북마크 리스트 조회 실패");
-    }
-    return response.data.data;
-  },
-});
-
 export const deleteDiary = (id: number) => {
-  const refresh = useRecoilRefresher_UNSTABLE(diaryListQuery);
+  const resetDiaryList = useResetRecoilState(diaryListState);
+  const resetQuery = useResetRecoilState(bookmarkDiaryQueryState);
+  const resetBookmarkDiaryList = useResetRecoilState(bookmarkDiaryListState);
+  const resetBookmarkQuery = useResetRecoilState(diaryQueryState);
   return async () => {
     const response = await diaryApi.deleteDiary(id);
     if (response.status !== 200) {
       throw new Error("일기 삭제 실패");
     }
-    refresh();
+    resetDiaryList();
+    resetQuery();
+    resetBookmarkDiaryList();
+    resetBookmarkQuery();
   };
 };
 
 export const useBookmarkDiary = () => {
-  const refresh = useRecoilRefresher_UNSTABLE(diaryListQuery);
+  const resetBookmarkDiaryList = useResetRecoilState(bookmarkDiaryListState);
+  const resetQuery = useResetRecoilState(bookmarkDiaryQueryState);
+
   return async (id: number) => {
     const response = await diaryApi.bookmarkDiary(id);
     if (response.status !== 201) {
       throw new Error("일기 북마크 실패");
     }
-    refresh();
+    resetBookmarkDiaryList();
+    resetQuery();
   };
 };

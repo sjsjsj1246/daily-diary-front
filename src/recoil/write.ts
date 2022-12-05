@@ -5,7 +5,12 @@ import {
   useRecoilValue,
   useResetRecoilState,
 } from "recoil";
-import { diaryListQuery } from "./diary";
+import {
+  bookmarkDiaryListState,
+  bookmarkDiaryQueryState,
+  diaryListState,
+  diaryQueryState,
+} from "./diary";
 
 export const writeDiaryState = atom<WriteDiary>({
   key: "diaryState",
@@ -20,14 +25,18 @@ export const writeDiaryState = atom<WriteDiary>({
 });
 
 export const useCreateDiary = () => {
-  const refresh = useRecoilRefresher_UNSTABLE(diaryListQuery);
+  const refreshDiaryList = useRecoilRefresher_UNSTABLE(diaryListState);
+  const resetDiaryList = useResetRecoilState(diaryListState);
+  const resetQuery = useResetRecoilState(bookmarkDiaryQueryState);
+  const resetBookmarkDiaryList = useResetRecoilState(bookmarkDiaryListState);
+  const resetBookmarkQuery = useResetRecoilState(diaryQueryState);
   const reset = useResetRecoilState(writeDiaryState);
   const wirteDiary = useRecoilValue(writeDiaryState);
 
   const createDiary = async () => {
     const formData = new FormData();
-    formData.append("title", wirteDiary.title);
-    formData.append("contents", wirteDiary.contents);
+    formData.append("title", wirteDiary.title || "");
+    formData.append("contents", wirteDiary.contents || "");
     formData.append("isPublic", wirteDiary.isPublic.toString());
     formData.append("tags", wirteDiary.tags.join(","));
     if (wirteDiary.image) formData.append("image", wirteDiary.image);
@@ -38,7 +47,11 @@ export const useCreateDiary = () => {
     }
 
     reset();
-    refresh();
+    refreshDiaryList();
+    resetDiaryList();
+    resetQuery();
+    resetBookmarkDiaryList();
+    resetBookmarkQuery();
   };
 
   return createDiary;
