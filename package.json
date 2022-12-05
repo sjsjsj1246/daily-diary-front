@@ -83,6 +83,5 @@
   },
   "msw": {
     "workerDirectory": "public"
-  },
-  "proxy": "http://117.17.198.45:8000/api/v1"
+  }
 }

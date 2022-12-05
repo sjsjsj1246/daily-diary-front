@@ -10,7 +10,8 @@ import "@fontsource/public-sans";
 import { CssBaseline } from "@mui/material";
 
 if (process.env.NODE_ENV === "development") {
-  worker.start();
+  axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+  // worker.start();
 } else {
   axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 }

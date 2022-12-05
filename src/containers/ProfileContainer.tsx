@@ -5,7 +5,7 @@ import { useRecoilValueLoadable } from "recoil";
 
 const ProfileContainer: React.FC = () => {
   const { id } = useParams();
-  const userLoadable = useRecoilValueLoadable(userQuery(id));
+  const userLoadable = useRecoilValueLoadable(userQuery(id!));
 
   return <Profile userLoadable={userLoadable} />;
 };
