@@ -9,8 +9,8 @@ const LoginModalContainer: React.FC = () => {
   const { currentUser } = useRecoilValue(authState);
   const login = useLogin();
 
-  const onLogin = async (token: string) => {
-    await login(token);
+  const onLogin = async (mode: "kakao" | "google", token: string) => {
+    await login(mode, token);
     setOpen(false);
   };
 
