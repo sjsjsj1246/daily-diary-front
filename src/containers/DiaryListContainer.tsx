@@ -18,7 +18,6 @@ const DiaryListContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log(diaryList);
     if (diaryList.length === 0) {
       onGetPreviousDiary();
     }

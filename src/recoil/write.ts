@@ -10,6 +10,7 @@ import {
   bookmarkDiaryQueryState,
   diaryListState,
   diaryQueryState,
+  useResetAllDiary,
 } from "./diary";
 
 export const writeDiaryState = atom<WriteDiary>({
@@ -25,11 +26,7 @@ export const writeDiaryState = atom<WriteDiary>({
 });
 
 export const useCreateDiary = () => {
-  const refreshDiaryList = useRecoilRefresher_UNSTABLE(diaryListState);
-  const resetDiaryList = useResetRecoilState(diaryListState);
-  const resetQuery = useResetRecoilState(bookmarkDiaryQueryState);
-  const resetBookmarkDiaryList = useResetRecoilState(bookmarkDiaryListState);
-  const resetBookmarkQuery = useResetRecoilState(diaryQueryState);
+  const resetAllDiary = useResetAllDiary();
   const resetWriteDiary = useResetRecoilState(writeDiaryState);
   const wirteDiary = useRecoilValue(writeDiaryState);
 
@@ -47,11 +44,7 @@ export const useCreateDiary = () => {
     }
 
     resetWriteDiary();
-    refreshDiaryList();
-    resetDiaryList();
-    resetQuery();
-    resetBookmarkDiaryList();
-    resetBookmarkQuery();
+    resetAllDiary();
   };
 
   return createDiary;

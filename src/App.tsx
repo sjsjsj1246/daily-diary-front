@@ -25,7 +25,6 @@ function App() {
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${auth.accessToken}`;
-          console.log("저장된 로그인 기록");
 
           setAuth(auth);
         } else localStorage.removeItem("auth");
