@@ -13,7 +13,7 @@ type HeaderProps = {
   currentUser: User | null;
 };
 
-const Header: React.FC<HeaderProps> = ({ currentUser }) => {
+const SideNav: React.FC<HeaderProps> = ({ currentUser }) => {
   const router = useInternalRouter();
   const pathname = useLocation().pathname;
   const setOpenLoginModal = useSetRecoilState(openLoginModalState);
@@ -54,8 +54,8 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   ];
 
   return (
-    <HeaderList>
-      <ListItem
+    <Wrapper>
+      <Item
         css={{
           paddingBottom: "2rem",
           marginBottom: "2rem",
@@ -63,34 +63,35 @@ const Header: React.FC<HeaderProps> = ({ currentUser }) => {
         }}
       >
         <Logo className="logo" onClick={() => router.push("/")} />
-      </ListItem>
+      </Item>
       {menuItems.map((item) => (
-        <ListItem
+        <Item
           key={item.title}
           className={`${item.path === pathname && "active"} menu`}
         >
           <IconButton onClick={item.onClick} size="large">
             <item.icon className="icon" fontSize="inherit" />
           </IconButton>
-        </ListItem>
+        </Item>
       ))}
-      <ListItem css={{ marginTop: "auto" }}>
+      <Item css={{ marginTop: "auto" }}>
         {currentUser ? (
           <Avatar
+            src={currentUser.image || undefined}
             sx={{ cursor: "pointer" }}
             onClick={() => router.push(`/profile/${currentUser.id}`)}
           />
         ) : (
-          <ListItem onClick={() => setOpenLoginModal(true)}>로그인</ListItem>
+          <Item onClick={() => setOpenLoginModal(true)}>로그인</Item>
         )}
-      </ListItem>
-    </HeaderList>
+      </Item>
+    </Wrapper>
   );
 };
 
-export default Header;
+export default SideNav;
 
-const HeaderList = styled.div`
+const Wrapper = styled.div`
   width: 5rem;
   height: 100%;
   position: fixed;
@@ -103,13 +104,13 @@ const HeaderList = styled.div`
   padding: 2rem 1rem;
 
   .logo {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     cursor: pointer;
   }
 `;
 
-const ListItem = styled.div`
+const Item = styled.div`
   box-sizing: content-box;
   width: 100%;
   height: 2.5rem;

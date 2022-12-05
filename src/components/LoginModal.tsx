@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
 import { useRef } from "react";
+import KakaoLogin from "react-kakao-login";
 import { CSSTransition } from "react-transition-group";
 
 type LoginModalProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  onLogin: (token: string) => void;
+  onLogin: (mode: "kakao" | "google", token: string) => void;
 };
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, setOpen, onLogin }) => {
@@ -21,15 +22,16 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, setOpen, onLogin }) => {
     >
       <Wrapper onClick={() => setOpen(false)}>
         <LoginForm ref={ref} onClick={(e) => e.stopPropagation()}>
-          <p>로그인</p>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onLogin("asd");
+          <p className="title">로그인</p>
+          <KakaoLogin
+            className="kakao-login"
+            useLoginForm={true}
+            token={process.env.REACT_APP_KAKAO_API_KEY!}
+            onSuccess={(result) => {
+              onLogin("kakao", result.response.access_token);
             }}
-          >
-            로그인하기
-          </button>
+            onFail={(result) => console.log(result)}
+          ></KakaoLogin>
         </LoginForm>
       </Wrapper>
     </CSSTransition>
@@ -72,10 +74,24 @@ const Wrapper = styled.div`
 `;
 
 const LoginForm = styled.div`
-  width: 10rem;
+  width: 20rem;
   height: 15rem;
   padding: 1rem;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.125);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .kakao-login {
+    font-weight: bold;
+  }
 `;
