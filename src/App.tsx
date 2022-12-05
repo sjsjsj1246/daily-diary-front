@@ -2,10 +2,11 @@ import LoginModalContainer from "@containers/LoginModalContainer";
 import { Routes } from "@pages/Routes";
 import { authState } from "@recoil/auth";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
 function App() {
+  const [authChecked, setAuthChecked] = useState(false);
   const [auth, setAuth] = useRecoilState(authState);
 
   const loadAuth = async () => {
@@ -24,24 +25,28 @@ function App() {
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${auth.accessToken}`;
+          console.log("저장된 로그인 기록");
+
           setAuth(auth);
         } else localStorage.removeItem("auth");
       } catch (err) {
         localStorage.removeItem("auth");
       }
     }
+
+    setAuthChecked(true);
   };
 
   useEffect(() => {
     loadAuth();
   }, []);
 
-  return (
+  return authChecked ? (
     <>
       <Routes />
-      <LoginModalContainer />
+      <LoginModalContainer />{" "}
     </>
-  );
+  ) : null;
 }
 
 export default App;
