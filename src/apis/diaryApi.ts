@@ -16,7 +16,7 @@ const bookmarkDiary = async (id: number) =>
   await axios.post<Diary>(`/diary/bookmark/${id}`);
 
 const getBookMarkDiaryList = async (query: DiaryQuery) =>
-  await axios.get<Diary[]>(`/diary/bookmark?${qs.stringify(query)}`);
+  await axios.get<Diary[]>(`/bookmark?${qs.stringify(query)}`);
 
 export default {
   getDiaryList,

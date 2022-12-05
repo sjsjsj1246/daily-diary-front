@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import data from "./data";
-const currentUserId = "a";
+import { savedData } from "../auth/data";
 
 export const getUser: Parameters<typeof rest.get>[1] = (req, res, ctx) => {
   const id = req.params.id as string | undefined;
@@ -14,7 +14,7 @@ export const getUser: Parameters<typeof rest.get>[1] = (req, res, ctx) => {
     return res(
       ctx.delay(200),
       ctx.status(200),
-      ctx.json(data.find((user) => user.id === currentUserId))
+      ctx.json(data.find((user) => user.id === savedData.memberId))
     );
   }
 };
