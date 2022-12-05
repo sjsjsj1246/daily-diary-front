@@ -37,6 +37,7 @@ specifiers:
   react-app-rewired: ^2.2.1
   react-dom: ^18.2.0
   react-hydratable: ^1.2.0
+  react-images-uploading: ^3.1.7
   react-kakao-login: ^2.1.1
   react-router: ^6.4.3
   react-router-dom: ^6.4.3
@@ -61,6 +62,7 @@ dependencies:
   qs: 6.11.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-images-uploading: 3.1.7_biqbaboplfbrettd7655fr4n2y
   react-kakao-login: 2.1.1_react@18.2.0
   react-router: 6.4.3_react@18.2.0
   react-router-dom: 6.4.3_biqbaboplfbrettd7655fr4n2y
@@ -10547,6 +10549,17 @@ packages:
       - supports-color
       - utf-8-validate
     dev: true
+
+  /react-images-uploading/3.1.7_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-woET50eCezm645iIeP4gCoN7HjdR3T64UXC5l53yd+2vHFp+pwABH8Z/aAO5IXDeC1aP6doQ+K738L701zswAw==}
+    engines: {node: '>=8', npm: '>=5'}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}

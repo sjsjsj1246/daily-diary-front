@@ -1,4 +1,10 @@
-import { atom, useRecoilRefresher_UNSTABLE, useResetRecoilState } from "recoil";
+import diaryApi from "@apis/diaryApi";
+import {
+  atom,
+  useRecoilRefresher_UNSTABLE,
+  useRecoilValue,
+  useResetRecoilState,
+} from "recoil";
 import { diaryListQuery } from "./diary";
 
 export const writeDiaryState = atom<WriteDiary>({
@@ -6,7 +12,7 @@ export const writeDiaryState = atom<WriteDiary>({
   default: {
     id: null,
     title: "",
-    content: "",
+    contents: "",
     isPublic: false,
     tags: [],
     image: null,
@@ -14,12 +20,25 @@ export const writeDiaryState = atom<WriteDiary>({
 });
 
 export const useCreateDiary = () => {
+  const refresh = useRecoilRefresher_UNSTABLE(diaryListQuery);
   const reset = useResetRecoilState(writeDiaryState);
+  const wirteDiary = useRecoilValue(writeDiaryState);
 
   const createDiary = async () => {
-    const newDiary = {};
+    const formData = new FormData();
+    formData.append("title", wirteDiary.title);
+    formData.append("contents", wirteDiary.contents);
+    formData.append("isPublic", wirteDiary.isPublic.toString());
+    formData.append("tags", wirteDiary.tags.join(","));
+    if (wirteDiary.image) formData.append("image", wirteDiary.image);
+
+    const response = await diaryApi.createDiary(formData);
+    if (response.status !== 201) {
+      throw new Error("일기 생성 실패");
+    }
 
     reset();
+    refresh();
   };
 
   return createDiary;

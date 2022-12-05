@@ -77,7 +77,7 @@ const SideNav: React.FC<HeaderProps> = ({ currentUser }) => {
       <Item css={{ marginTop: "auto" }}>
         {currentUser ? (
           <Avatar
-            src={currentUser.image || undefined}
+            src={`${process.env.REACT_APP_API_URL}/images/${currentUser.profileImage}`}
             sx={{ cursor: "pointer" }}
             onClick={() => router.push(`/profile/${currentUser.id}`)}
           />

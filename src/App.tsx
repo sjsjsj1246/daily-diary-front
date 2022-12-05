@@ -20,8 +20,12 @@ function App() {
           },
         });
 
-        if (response.status === 200) setAuth(auth);
-        else localStorage.removeItem("auth");
+        if (response.status === 200) {
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${auth.accessToken}`;
+          setAuth(auth);
+        } else localStorage.removeItem("auth");
       } catch (err) {
         localStorage.removeItem("auth");
       }

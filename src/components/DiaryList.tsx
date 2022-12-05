@@ -14,55 +14,53 @@ const DiaryList: React.FC<DiaryListProps> = ({ diaryListLoadable }) => {
 
   return (
     <Wrapper>
-      <Contents>
-        {diaryListLoadable.state === "hasValue" &&
-          diaryListLoadable.contents.map((diary) => (
-            <Card
-              key={diary.id}
-              onClick={() => router.push(`/diary/${diary.id}`)}
-            >
-              <Left>
-                <Top>
-                  <Avatar
-                    className="avatar"
-                    src={diary.author.image || undefined}
-                  />
-                  <Typography className="name">{diary.author.name}</Typography>
-                </Top>
-                <Middle>
-                  <Typography noWrap className="title">
-                    {diary.title}
+      {diaryListLoadable.state === "hasValue" &&
+        diaryListLoadable.contents.map((diary) => (
+          <Card
+            key={diary.diaryId}
+            onClick={() => router.push(`/diary/${diary.diaryId}`)}
+          >
+            <Left>
+              <Top>
+                <Avatar
+                  className="avatar"
+                  src={`${process.env.REACT_APP_API_URL}/images/${diary.author.image}`}
+                />
+                <Typography className="name">{diary.author.name}</Typography>
+              </Top>
+              <Middle>
+                <Typography noWrap className="title">
+                  {diary.title}
+                </Typography>
+                <Typography className="content">
+                  {replaceHtmlTag(diary.contents)}
+                </Typography>
+              </Middle>
+              <Bottom>
+                <Typography className="date">
+                  {dateStringToLocalString(diary.createdAt)}
+                </Typography>
+                {diary.tags.map((tag) => (
+                  <Typography className="tag" key={tag}>
+                    #{tag}
                   </Typography>
-                  <Typography className="content">
-                    {replaceHtmlTag(diary.content)}
-                  </Typography>
-                </Middle>
-                <Bottom>
-                  <Typography className="date">
-                    {dateStringToLocalString(diary.createdAt)}
-                  </Typography>
-                  {diary.tags.map((tag) => (
-                    <Typography className="tag" key={tag}>
-                      #{tag}
-                    </Typography>
-                  ))}
-                </Bottom>
-              </Left>
-              {diary.image && (
-                <Right>
-                  <img
-                    css={{
-                      width: "10rem",
-                      height: "10rem",
-                      objectFit: "cover",
-                    }}
-                    src={diary.image}
-                  />
-                </Right>
-              )}
-            </Card>
-          ))}
-      </Contents>
+                ))}
+              </Bottom>
+            </Left>
+            {diary.image && (
+              <Right>
+                <img
+                  css={{
+                    width: "10rem",
+                    height: "10rem",
+                    objectFit: "cover",
+                  }}
+                  src={`${process.env.REACT_APP_API_URL}/images/${diary.image}`}
+                />
+              </Right>
+            )}
+          </Card>
+        ))}
       <Fab
         sx={{
           color: "white",
@@ -89,13 +87,10 @@ const DiaryList: React.FC<DiaryListProps> = ({ diaryListLoadable }) => {
 export default DiaryList;
 
 const Wrapper = styled("div")`
+  width: 80%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   padding: 2rem 0;
-`;
-
-const Contents = styled("div")`
-  width: 85%;
 `;
 
 const Card = styled(Box)`

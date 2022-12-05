@@ -20,14 +20,16 @@ export const getDiary: Parameters<typeof rest.get>[1] = (req, res, ctx) => {
   return res(
     ctx.status(200),
     ctx.delay(200),
-    ctx.json(diaryList.diaryList.find((diary) => diary.id === parseInt(id)))
+    ctx.json(
+      diaryList.diaryList.find((diary) => diary.diaryId === parseInt(id))
+    )
   );
 };
 
 export const updateDiary: Parameters<typeof rest.get>[1] = (req, res, ctx) => {
   const { id } = req.params as { id: string };
   const index = diaryList.diaryList.findIndex(
-    (diary) => diary.id === parseInt(id)
+    (diary) => diary.diaryId === parseInt(id)
   );
   diaryList.diaryList[index] = req.body;
   return res(ctx.status(200), ctx.delay(200), ctx.json(diaryList.diaryList));
@@ -36,7 +38,7 @@ export const updateDiary: Parameters<typeof rest.get>[1] = (req, res, ctx) => {
 export const deleteDiary: Parameters<typeof rest.get>[1] = (req, res, ctx) => {
   const { id } = req.params as { id: string };
   const index = diaryList.diaryList.findIndex(
-    (diary) => diary.id === parseInt(id)
+    (diary) => diary.diaryId === parseInt(id)
   );
   diaryList.diaryList.splice(index, 1);
   return res(ctx.status(200), ctx.delay(200), ctx.json(diaryList.diaryList));
@@ -57,7 +59,7 @@ export const bookmarkDiary: Parameters<typeof rest.get>[1] = (
 
   const { id } = req.params as { id: string };
   const index = diaryList.diaryList.findIndex(
-    (diary) => diary.id === parseInt(id)
+    (diary) => diary.diaryId === parseInt(id)
   );
 
   const currentUserBookmarks = userBookmarks.find(

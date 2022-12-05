@@ -2,7 +2,7 @@ type User = {
   id: string;
   name: string | null;
   email: string;
-  image: string | null;
+  profileImage: string | null;
 };
 
 type AuthDTO = {
@@ -15,26 +15,32 @@ type AuthDTO = {
 };
 
 type Diary = {
-  id: number;
+  diaryId: number;
   title: string;
-  content: string;
+  contents: string;
   createdAt: string;
-  isPublic: boolean;
   bookmarkedUserId: Array<string>;
   tags: Array<string>;
   image: string | null;
-  author: User;
+  isPublic: boolean;
+  author: {
+    id: string;
+    name: string;
+    image: string | null;
+  };
 };
 
 type WriteDiary = {
   id: number | null;
   title: string;
-  content: string;
+  contents: string;
   isPublic: boolean;
   tags: Array<string>;
   image: string | null;
 };
 
 type DiaryQuery = {
-  userId?: string;
+  sort: "ASC" | "DESC";
+  limit: number;
+  lte: number;
 };

@@ -1,14 +1,9 @@
 import DiaryList from "@components/DiaryList";
 import { diaryListQuery } from "@recoil/diary";
-import { useLocation } from "react-router";
-import { useRecoilValueLoadable } from "recoil";
-import qs from "qs";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 
 const DiaryListContainer: React.FC = () => {
-  const query = useLocation().search;
-  const diaryListLoadable = useRecoilValueLoadable(
-    diaryListQuery(qs.parse(query))
-  );
+  const diaryListLoadable = useRecoilValueLoadable(diaryListQuery);
 
   return <DiaryList diaryListLoadable={diaryListLoadable} />;
 };

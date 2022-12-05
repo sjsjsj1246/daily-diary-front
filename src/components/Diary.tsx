@@ -16,9 +16,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 type DiaryProps = {
   diary: Diary;
   currentUser: User | null;
+  onBookMark: () => Promise<void>;
 };
 
-const Diary: React.FC<DiaryProps> = ({ diary, currentUser }) => {
+const Diary: React.FC<DiaryProps> = ({ diary, currentUser, onBookMark }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -31,12 +32,15 @@ const Diary: React.FC<DiaryProps> = ({ diary, currentUser }) => {
   return (
     <Wrapper>
       <Header>
-        <Avatar className="avatar" src={diary.author.image || undefined} />
+        <Avatar
+          className="avatar"
+          src={process.env.REACT_APP_API_URL + "/images/" + diary.author.image}
+        />
         <Box>
           <p className="name">{diary.author.name}</p>
           <p className="date">{dateStringToLocalString(diary.createdAt)}</p>
         </Box>
-        <IconButton className="bookmark">
+        <IconButton className="bookmark" onClick={onBookMark}>
           <BookmarkAddOutlinedIcon />
         </IconButton>
         {currentUser?.id === diary.author.id && (
@@ -52,7 +56,7 @@ const Diary: React.FC<DiaryProps> = ({ diary, currentUser }) => {
       </Header>
       <Title>{diary.title}</Title>
       <Content>
-        <Viewer initialValue={diary.content} />
+        <Viewer initialValue={diary.contents} />
       </Content>
     </Wrapper>
   );

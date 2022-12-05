@@ -5,10 +5,7 @@ import { useRecoilValueLoadable } from "recoil";
 import qs from "qs";
 
 const BookmarkListContainer: React.FC = () => {
-  const query = useLocation().search.split("?")[1];
-  const diaryListLoadable = useRecoilValueLoadable(
-    bookmarkListQuery(qs.parse(query))
-  );
+  const diaryListLoadable = useRecoilValueLoadable(bookmarkListQuery);
 
   return <DiaryList diaryListLoadable={diaryListLoadable} />;
 };

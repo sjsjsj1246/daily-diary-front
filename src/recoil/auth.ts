@@ -41,7 +41,7 @@ export const useLogin = () => {
         currentUser: {
           id: response.data.memberId,
           name: response.data.name,
-          image: response.data.profileImage,
+          profileImage: response.data.profileImage,
           email: response.data.email,
         },
       })
@@ -53,7 +53,7 @@ export const useLogin = () => {
       currentUser: {
         id: response.data.memberId,
         name: response.data.name,
-        image: response.data.profileImage,
+        profileImage: response.data.profileImage,
         email: response.data.email,
       },
     });
