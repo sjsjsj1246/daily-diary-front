@@ -113,3 +113,18 @@ export const useBookmarkDiary = () => {
     resetQuery();
   };
 };
+
+export const useResetAllDiary = () => {
+  const resetDiaryList = useResetRecoilState(diaryListState);
+  const resetQuery = useResetRecoilState(diaryQueryState);
+  const resetBookmarkDiaryList = useResetRecoilState(bookmarkDiaryListState);
+  const resetBookmarkQuery = useResetRecoilState(bookmarkDiaryQueryState);
+  return () => {
+    console.log("다이어리 초기화");
+
+    resetDiaryList();
+    resetQuery();
+    resetBookmarkDiaryList();
+    resetBookmarkQuery();
+  };
+};

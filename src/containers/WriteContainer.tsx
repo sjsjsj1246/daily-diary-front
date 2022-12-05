@@ -1,7 +1,6 @@
 import Write from "@components/Write";
 import { useInternalRouter } from "@pages/routing";
 import { useCreateDiary, writeDiaryState } from "@recoil/write";
-import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 const WriteContainer: React.FC = () => {
@@ -20,10 +19,6 @@ const WriteContainer: React.FC = () => {
       [property]: data,
     });
   };
-
-  useEffect(() => {
-    console.log(writeDiary);
-  }, [writeDiary]);
 
   return (
     <Write writeDiary={writeDiary} onChange={onChange} onSubmit={onSubmit} />

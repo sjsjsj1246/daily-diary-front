@@ -122,7 +122,7 @@ const Write: React.FC<WriteProps> = ({ writeDiary, onChange, onSubmit }) => {
           onChange("contents", editorRef.current!.getInstance().getHTML())
         }
         language="ko-KR"
-        height="calc(100vh - 20rem)"
+        height="calc(100vh - 26rem)"
       />
 
       <Button className="submit" variant="contained" onClick={onSubmit}>
@@ -162,6 +162,10 @@ const Wrapper = styled.div`
     width: 100%;
     color: white;
     background-color: #444444;
+
+    &:hover {
+      background-color: #636363;
+    }
   }
 
   .toastui-editor-defaultUI {
