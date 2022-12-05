@@ -30,7 +30,7 @@ const TagInput: React.FC<TagInputProps> = ({ tags, onCreate, ...props }) => {
     if (
       trimmedInput.length > 0 &&
       trimmedInput.length <= 10 &&
-      tags.length < 10
+      tags.length < 6
     ) {
       onCreate(trimmedInput);
       setInput("");
@@ -41,13 +41,13 @@ const TagInput: React.FC<TagInputProps> = ({ tags, onCreate, ...props }) => {
   return (
     <TextField
       size="small"
-      placeholder="최대 10개까지 입력해주세요"
+      placeholder="최대 6개까지 입력해주세요"
       value={input}
       onChange={handleChange}
       onKeyPress={handleKeyPress}
-      error={tags.length >= 10 || lengthError}
+      error={tags.length >= 6 || lengthError}
       helperText={
-        tags.length >= 10
+        tags.length >= 6
           ? "더이상 추가할 수 없습니다."
           : lengthError && "10자 이내로 입력해주세요"
       }
