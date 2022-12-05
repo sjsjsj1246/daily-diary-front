@@ -30,7 +30,7 @@ export const useCreateDiary = () => {
   const resetQuery = useResetRecoilState(bookmarkDiaryQueryState);
   const resetBookmarkDiaryList = useResetRecoilState(bookmarkDiaryListState);
   const resetBookmarkQuery = useResetRecoilState(diaryQueryState);
-  const reset = useResetRecoilState(writeDiaryState);
+  const resetWriteDiary = useResetRecoilState(writeDiaryState);
   const wirteDiary = useRecoilValue(writeDiaryState);
 
   const createDiary = async () => {
@@ -46,7 +46,7 @@ export const useCreateDiary = () => {
       throw new Error("일기 생성 실패");
     }
 
-    reset();
+    resetWriteDiary();
     refreshDiaryList();
     resetDiaryList();
     resetQuery();

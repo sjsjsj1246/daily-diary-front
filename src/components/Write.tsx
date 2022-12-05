@@ -1,7 +1,16 @@
 import React, { useRef } from "react";
 import styled from "@emotion/styled";
 import { Editor } from "@toast-ui/react-editor";
-import { Box, Button, Grid, ImageListTypeMap, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  ImageListTypeMap,
+  Switch,
+  TextField,
+} from "@mui/material";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "tui-color-picker/dist/tui-color-picker.css";
@@ -21,30 +30,86 @@ type WriteProps = {
 const Write: React.FC<WriteProps> = ({ writeDiary, onChange, onSubmit }) => {
   const editorRef = useRef<Editor>(null);
 
-  const onChangeEditor = () => {
-    const data = editorRef.current!.getInstance().getHTML();
-    console.log(data);
-    onChange("contents", data);
-
-    console.log(data.replace(/(\<.*?\>)|(\n)/g, ""));
-  };
-
   return (
     <Wrapper>
-      <Box className="header">
-        <TextField
-          className="titleInput"
-          placeholder="제목을 입력해주세요"
-          value={writeDiary.title}
-          onChange={(e) => onChange("title", e.target.value)}
-          variant="standard"
-          autoFocus
+      <CustomForm fullWidth>
+        <FormControlLabel
+          control={
+            <TextField
+              placeholder="제목을 입력해주세요"
+              value={writeDiary.title}
+              onChange={(e) => onChange("title", e.target.value)}
+              variant="outlined"
+              size="small"
+              autoFocus
+              sx={{ flex: 1 }}
+            />
+          }
+          label="제목"
+          labelPlacement="start"
         />
-        <Button className="submit" variant="contained" onClick={onSubmit}>
-          저장
-          <DoneIcon />
-        </Button>
-      </Box>
+        <FormControlLabel
+          control={
+            <>
+              {writeDiary.image ? (
+                <img
+                  className="preview"
+                  src={URL.createObjectURL(writeDiary.image)}
+                  alt="이미지"
+                />
+              ) : (
+                <label className="uploadImage" htmlFor="image-upload">
+                  이미지를 등록해주세요
+                </label>
+              )}
+              <input
+                type="file"
+                id="image-upload"
+                accept="image/jpg,image/png,image/jpeg,image/gif"
+                name="profile_img"
+                onChange={(e) => onChange("image", e.target.files![0])}
+                style={{ display: "none" }}
+              />
+            </>
+          }
+          label="대표 이미지"
+          labelPlacement="start"
+        />
+
+        <FormControlLabel
+          control={
+            <Switch
+              checked={writeDiary.isPublic}
+              onClick={() => onChange("isPublic", !writeDiary.isPublic)}
+            />
+          }
+          label="전체 공개"
+          labelPlacement="start"
+        />
+        <FormControlLabel
+          control={
+            <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+              <TagInput
+                tags={writeDiary.tags}
+                onCreate={(input) => {
+                  onChange("tags", writeDiary.tags.concat(input));
+                }}
+              />
+              <TagBox
+                tags={writeDiary.tags}
+                onRemove={(index: number) => {
+                  onChange(
+                    "tags",
+                    writeDiary.tags.filter((input, i) => index !== i)
+                  );
+                }}
+              />
+            </Box>
+          }
+          label="태그 입력"
+          labelPlacement="start"
+        />
+      </CustomForm>
 
       <Editor
         ref={editorRef}
@@ -60,33 +125,10 @@ const Write: React.FC<WriteProps> = ({ writeDiary, onChange, onSubmit }) => {
         height="calc(100vh - 20rem)"
       />
 
-      <TagInput
-        tags={writeDiary.tags}
-        onCreate={(input) => {
-          onChange("tags", writeDiary.tags.concat(input));
-        }}
-      />
-      <TagBox
-        tags={writeDiary.tags}
-        onRemove={(index: number) => {
-          onChange(
-            "tags",
-            writeDiary.tags.filter((input, i) => index !== i)
-          );
-        }}
-      />
-      <input
-        type="file"
-        accept="image/jpg,image/png,image/jpeg,image/gif"
-        name="profile_img"
-        onChange={(e) => onChange("image", e.target.files![0])}
-      />
-      <p>전체 공개</p>
-      <input
-        type="checkbox"
-        checked={writeDiary.isPublic}
-        onChange={(e) => onChange("isPublic", e.target.checked)}
-      />
+      <Button className="submit" variant="contained" onClick={onSubmit}>
+        저장
+        <DoneIcon />
+      </Button>
     </Wrapper>
   );
 };
@@ -99,34 +141,27 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding: 2rem 0;
 
-  .header {
-    display: flex;
-    align-items: flex-end;
-    margin-bottom: 1.5rem;
+  .Mui-focused {
+    color: black;
+  }
 
-    .titleInput {
-      padding-right: 1rem;
-      flex: 1;
+  .MuiInput-underline:after {
+    border-bottom-color: black;
+  }
 
-      .MuiInputBase-input {
-        font-size: 1.5rem;
-      }
-
-      & label.Mui-focused {
-        color: black;
-      }
-
-      & .MuiInput-underline:after {
-        border-bottom-color: black;
-      }
+  .MuiOutlinedInput-root {
+    &:hover fieldset {
+      border-color: #9d9d9d;
     }
-
-    .submit {
-      width: 5.2rem;
-      height: 100%;
-      color: white;
-      background-color: #444444;
+    &.Mui-focused fieldset {
+      border-color: #636363;
     }
+  }
+
+  .submit {
+    width: 100%;
+    color: white;
+    background-color: #444444;
   }
 
   .toastui-editor-defaultUI {
@@ -151,5 +186,37 @@ const Wrapper = styled.div`
     h2 {
       border: none;
     }
+  }
+`;
+
+const CustomForm = styled(FormControl)`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .MuiFormControlLabel-root {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-end;
+    padding: 1rem 0;
+
+    .MuiTypography-root {
+      width: 6rem;
+    }
+  }
+
+  .MuiFormControlLabel-root + .MuiFormControlLabel-root {
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .preview {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .uploadImage {
   }
 `;

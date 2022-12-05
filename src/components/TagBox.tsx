@@ -9,25 +9,26 @@ type TagBoxProps = {
 
 const TagBox: React.FC<TagBoxProps> = ({ tags, onRemove, ...props }) => {
   return (
-    <Grid container spacing={1} css={talentWrapper} {...props}>
+    <Box css={talentWrapper} {...props}>
       {tags.map((tag, index) => (
-        <Grid item key={index}>
-          <Box onClick={() => onRemove(index)}>
-            <Typography>{tag}</Typography>
-            <ClearIcon className="cancelIcon" />
-          </Box>
-        </Grid>
+        <Box onClick={() => onRemove(index)}>
+          <Typography>#{tag}</Typography>
+          <ClearIcon className="cancelIcon" />
+        </Box>
       ))}
-    </Grid>
+    </Box>
   );
 };
 
 const talentWrapper = css`
-  width: 30rem;
+  width: 100%;
   margin: 1rem 0;
+  display: flex;
+  gap: 1rem;
   flex-wrap: wrap;
 
   .MuiBox-root {
+    width: fit-content;
     display: flex;
     align-items: center;
     height: 1.625rem;
@@ -38,6 +39,8 @@ const talentWrapper = css`
     padding: 0.3125rem 0.625rem;
 
     .MuiTypography-root {
+      width: fit-content !important;
+      padding: 0 0.5rem;
       color: white;
       font-family: "Barlow", "Noto Sans KR";
       font-size: 0.75rem;

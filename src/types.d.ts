@@ -36,7 +36,7 @@ type WriteDiary = {
   contents: string;
   isPublic: boolean;
   tags: Array<string>;
-  image: string | null;
+  image: any;
 };
 
 type DiaryQuery = {
