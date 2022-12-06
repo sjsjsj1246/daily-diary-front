@@ -30,7 +30,7 @@ const DiaryList: React.FC<DiaryListProps> = ({
     if (scrollHeight - innerHeight - scrollTop < 200) {
       onGetPreviousDiary();
     }
-  }, 500);
+  }, 800);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);

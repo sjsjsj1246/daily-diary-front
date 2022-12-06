@@ -24,7 +24,13 @@ const DiaryListContainer: React.FC = () => {
   }, [diaryList]);
 
   return (
-    <DiaryList diaryList={diaryList} onGetPreviousDiary={onGetPreviousDiary} />
+    <DiaryList
+      diaryList={diaryList.filter(
+        (element, index) =>
+          diaryList.findIndex((x) => x.diaryId === element.diaryId) === index
+      )}
+      onGetPreviousDiary={onGetPreviousDiary}
+    />
   );
 };
 export default DiaryListContainer;

@@ -45,6 +45,9 @@ export const useGetPreviousDiary = () => {
     const {
       data: { data },
     } = await diaryApi.getDiaryList(query);
+
+    if (diaryList.includes(data[0])) return;
+
     const lte = data[data.length - 1].diaryId;
     setQuery((prev) => ({ ...prev, lte }));
     setDiaryList((prev) => [...prev, ...data]);
