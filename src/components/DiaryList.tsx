@@ -128,6 +128,11 @@ const Card = styled(Box)`
   cursor: pointer;
   transition: all 0.3 ease;
   border-bottom: 1px solid #e2e2e2;
+
+  @media (max-width: 500px) {
+    height: fit-content;
+    flex-direction: column;
+  }
 `;
 
 const Left = styled(Box)`
@@ -181,16 +186,23 @@ const Bottom = styled(Box)`
   margin-top: auto;
 
   .date {
+    white-space: nowrap;
     font-size: 0.8rem;
     font-weight: 400;
     color: #747474;
   }
 
   .tag {
+    white-space: nowrap;
+    text-overflow: ellipsis;
     margin-left: 0.5rem;
     font-size: 0.8rem;
     font-weight: 400;
     color: #747474;
+  }
+
+  @media (max-width: 500px) {
+    margin-top: 1rem;
   }
 `;
 
@@ -202,8 +214,17 @@ const Right = styled(Box)`
 
   img {
     width: 10rem;
-    height: 10rem;
     object-fit: cover;
     object-position: center;
+  }
+
+  @media (max-width: 500px) {
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: center;
+
+    img {
+      width: 100%;
+    }
   }
 `;

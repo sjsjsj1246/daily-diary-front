@@ -9,6 +9,8 @@ import BookmarksOutlinedIcon from "@mui/icons-material/BookmarksOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { useLocation } from "react-router";
 import { useInternalRouter } from "@pages/routing";
+import { useSetRecoilState } from "recoil";
+import { openLoginModalState } from "@recoil/ui";
 
 type BottomNavProps = {
   currentUser: User | null;
@@ -17,22 +19,40 @@ type BottomNavProps = {
 const BottomNav: React.FC<BottomNavProps> = ({ currentUser }) => {
   const path = useLocation().pathname;
   const router = useInternalRouter();
+  const setOpenLoginModal = useSetRecoilState(openLoginModalState);
 
   const menuItem = [
     {
       title: "Home",
       path: "/",
       icon: HomeIcon,
+      onClick: () => {
+        router.push("/");
+      },
     },
     {
       title: "Bookmark",
       path: "/bookmark",
       icon: BookmarksOutlinedIcon,
+      onClick: () => {
+        if (currentUser) {
+          router.push(`/bookmark`);
+        } else {
+          setOpenLoginModal(true);
+        }
+      },
     },
     {
       title: "profile",
       path: `/profile/${currentUser?.id}`,
       icon: PersonOutlineIcon,
+      onClick: () => {
+        if (currentUser) {
+          router.push(`/profile/${currentUser?.id}`);
+        } else {
+          setOpenLoginModal(true);
+        }
+      },
     },
   ];
 
@@ -45,7 +65,7 @@ const BottomNav: React.FC<BottomNavProps> = ({ currentUser }) => {
           <BottomNavigationAction
             key={item.title}
             icon={<item.icon fontSize="large" />}
-            onClick={() => router.push(item.path)}
+            onClick={item.onClick}
           />
         ))}
       </BottomNavigation>
@@ -64,6 +84,6 @@ const Wrapper = styled(Paper)`
   z-index: 999;
 
   .Mui-selected {
-    color: black;
+    color: black !important;
   }
 `;
