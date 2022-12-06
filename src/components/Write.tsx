@@ -4,6 +4,7 @@ import { Editor } from "@toast-ui/react-editor";
 import {
   Box,
   Button,
+  Fab,
   FormControl,
   FormControlLabel,
   Grid,
@@ -122,10 +123,10 @@ const Write: React.FC<WriteProps> = ({ writeDiary, onChange, onSubmit }) => {
           onChange("contents", editorRef.current!.getInstance().getHTML())
         }
         language="ko-KR"
-        height="calc(100vh - 26rem)"
+        height="calc(100vh - 28rem)"
       />
 
-      <Button className="submit" variant="contained" onClick={onSubmit}>
+      <Button className="submit" onClick={onSubmit}>
         저장
         <DoneIcon />
       </Button>
@@ -159,6 +160,7 @@ const Wrapper = styled.div`
   }
 
   .submit {
+    margin-top: 1rem;
     width: 100%;
     color: white;
     background-color: #444444;

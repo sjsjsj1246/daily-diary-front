@@ -1,6 +1,7 @@
 import Write from "@components/Write";
 import { useInternalRouter } from "@pages/routing";
 import { useCreateDiary, writeDiaryState } from "@recoil/write";
+import { replaceHtmlTag } from "@utils/diary";
 import { useRecoilState } from "recoil";
 
 const WriteContainer: React.FC = () => {
@@ -9,6 +10,14 @@ const WriteContainer: React.FC = () => {
   const router = useInternalRouter();
 
   const onSubmit = async () => {
+    if (writeDiary.title === "") {
+      alert("제목을 입력해주세요.");
+      return;
+    }
+    if (replaceHtmlTag(writeDiary.contents) === "") {
+      alert("내용을 입력해주세요.");
+      return;
+    }
     await createDiary();
     router.push(`/`);
   };
