@@ -63,11 +63,13 @@ const Diary: React.FC<DiaryProps> = ({
             <p className="date">{dateStringToLocalString(diary.createdAt)}</p>
           </Box>
           <IconButton className="bookmark" onClick={onBookMark}>
-            {diary.bookmarkUser.includes(currentUser?.id) ? (
-              <BookmarkIcon />
-            ) : (
-              <BookmarkAddOutlinedIcon />
-            )}
+            {currentUser ? (
+              diary.bookmarkUser.includes(currentUser?.id) ? (
+                <BookmarkIcon />
+              ) : (
+                <BookmarkAddOutlinedIcon />
+              )
+            ) : null}
           </IconButton>
           {currentUser?.id === diary.author.id && (
             <IconButton onClick={handleClick}>

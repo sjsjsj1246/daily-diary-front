@@ -222,5 +222,6 @@ const CustomForm = styled(FormControl)`
   }
 
   .uploadImage {
+    cursor: pointer;
   }
 `;
